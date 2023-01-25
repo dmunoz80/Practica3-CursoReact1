@@ -2,38 +2,44 @@ import React, { useState } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, ListGroup, Navbar } from "react-bootstrap"
 import {DatosIniciales} from "./DatosIniciales"
+import { v4 as uuidv4 } from 'uuid';
 
 const Datos = () => {
 const [nombreColaborador, setNombreColaborador] = useState("")
+const [correoColaborador, setCorreoColaborador] = useState("")
 const [listaDatos, setListaDatos] = useState(DatosIniciales)
+
 // Función al enviar el formulario
 const enviarFormulario = (e) => {
 e.preventDefault()
-setListaDatos([...listaDatos, { nombre: nombreColaborador}])
+setListaDatos([...listaDatos, { id: uuidv4(), nombre: nombreColaborador, correo:correoColaborador }])
+console.log(listaDatos)
 }
 const capturaInput = (e) => {
-    setNombreColaborador(e.target.value)
+    setNombreColaborador(e.target.value);
+    setCorreoColaborador(e.target.value);
     }
     return (
+
     
 <div className="m-5 w-50">
 
-<Navbar className="bg-dark">
-<Navbar.Brand>Buscador de colaboradores</Navbar.Brand>
+<Navbar className="bg-dark mb-3 p-2 d-flex justify-content-between">
+<Navbar.Brand className="text-light">Buscador de colaboradores</Navbar.Brand>
 <Form className="d-flex">
             <Form.Control
                 type="search"
-                placeholder="Search"
+                placeholder="Busca un colaborador"
             />
             </Form>
 </Navbar>
 
     <Form onSubmit={enviarFormulario}>
         <Form.Label>Nombre del colaborador</Form.Label>
-        <Form.Control type="text" placeholder="Ingresa el nombre del colaborador" name="nombreColaborador" onChange={capturaInput} />
+        <Form.Control type="text" placeholder="Ingresa el nombre del colaborador" name="nombreColaborador" onChange={capturaInput}/>
 
         <Form.Label className="mt-3">Correo del colaborador</Form.Label>
-        <Form.Control type="email" placeholder="Ingresa correo del colaborador" />
+        <Form.Control type="email" placeholder="Ingresa correo del colaborador" email="correoColaborador" onChange={capturaInput}/>
 
         <Button className="mt-3 mb-3" variant="primary" type="submit">
         Agregar colaborador
@@ -44,8 +50,8 @@ const capturaInput = (e) => {
 
     <ListGroup>
         <h3>Listado de Colaboradores</h3>
-        {listaDatos.map(tarea => <ListGroup.Item key={tarea.nombre}>
-        {tarea.nombre}</ListGroup.Item> )}
+        {listaDatos.map(dato => <ListGroup.Item key={dato.id} id={dato.id}>
+        {dato.nombre} - {dato.correo}</ListGroup.Item> )}
         </ListGroup>
     
     </div>
@@ -53,3 +59,4 @@ const capturaInput = (e) => {
     )
     }
     export default Datos
+    
