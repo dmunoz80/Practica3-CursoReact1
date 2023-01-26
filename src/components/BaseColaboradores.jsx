@@ -9,19 +9,23 @@ const [nombreColaborador, setNombreColaborador] = useState("")
 const [correoColaborador, setCorreoColaborador] = useState("")
 const [listaDatos, setListaDatos] = useState(DatosIniciales)
 
+
 // Función al enviar el formulario
 const enviarFormulario = (e) => {
 e.preventDefault()
-setListaDatos([...listaDatos, { id: uuidv4(), nombre: nombreColaborador, correo:correoColaborador }])
-console.log(listaDatos)
-}
-const capturaInput = (e) => {
-    setNombreColaborador(e.target.value);
-    setCorreoColaborador(e.target.value);
-    }
-    return (
 
+setListaDatos([...listaDatos, { id: uuidv4(), nombre:nombreColaborador, correo:correoColaborador }])
+}
+const capturaInputName = (e) => {
+    setNombreColaborador(e.target.value)
+    }
+
+const capturaInputEmail = (e) => {
+    setCorreoColaborador(e.target.value)
+    }
     
+return (
+
 <div className="m-5 w-50">
 
 <Navbar className="bg-dark mb-3 p-2 d-flex justify-content-between">
@@ -30,16 +34,17 @@ const capturaInput = (e) => {
             <Form.Control
                 type="search"
                 placeholder="Busca un colaborador"
+                name="search"
             />
             </Form>
 </Navbar>
 
     <Form onSubmit={enviarFormulario}>
         <Form.Label>Nombre del colaborador</Form.Label>
-        <Form.Control type="text" placeholder="Ingresa el nombre del colaborador" name="nombreColaborador" onChange={capturaInput}/>
+        <Form.Control type="text" placeholder="Ingresa el nombre del colaborador" name="nombreColaborador" onChange={capturaInputName}/>
 
         <Form.Label className="mt-3">Correo del colaborador</Form.Label>
-        <Form.Control type="email" placeholder="Ingresa correo del colaborador" email="correoColaborador" onChange={capturaInput}/>
+        <Form.Control type="email" placeholder="Ingresa correo del colaborador" name="correoColaborador" onChange={capturaInputEmail}/>
 
         <Button className="mt-3 mb-3" variant="primary" type="submit">
         Agregar colaborador
